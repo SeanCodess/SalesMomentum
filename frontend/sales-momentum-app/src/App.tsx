@@ -1,5 +1,9 @@
-import "./App.css";
+import AppShell from "./components/Appshell";
 
-function App() {}
-
-export default App;
+export default function App() {
+  return (
+    <div className="min-h-screen w-full bg-neutral-900 text-neutral-100">
+      <AppShell />
+    </div>
+  );
+}
