@@ -1,4 +1,4 @@
-import AppShell from "./components/Appshell";
+import AppShell from "./components/AppShell";
 
 export default function App() {
   return (
