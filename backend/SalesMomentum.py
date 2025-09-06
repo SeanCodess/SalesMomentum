@@ -2,7 +2,30 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
+# backend/SalesMomentum.py
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+app = FastAPI()
+
+# CORS so your React frontend can talk to the backend during dev
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Vite dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "message": "SalesMomentum backend is running"}
+
+# Example endpoint for metrics
+@app.post("/api/metrics/daily")
+def daily_metrics(sales: list[int]):
+    avg = sum(sales) / len(sales) if sales else 0
+    return {"average_daily_sales": avg}
 def analyze_sales(file_path):
     """
     Analyzes daily sales data from a CSV file to provide insights.
