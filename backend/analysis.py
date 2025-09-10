@@ -27,10 +27,34 @@ def analyze_sales(file_path: str):
     print("---Sales Data Analysis---")
 
     # --- Metrics ---
-    daily_avg = sales_df['Sales'].mean()
-    weekly_avg = sales_df.resample('W')['Sales'].mean().mean()
-    monthly_avg = sales_df.resample('M')['Sales'].mean().mean()
-    yearly_avg = sales_df.resample('Y')['Sales'].mean().mean()
+    # --- DAILY AVERAGES ---
+    # All time
+    daily_all_time = sales_df['Sales'].mean()
+
+    # For a given year (example: 2023)
+    daily_year = sales_df.loc['2023']['Sales'].mean()
+
+    # For a given month (example: March 2023)
+    daily_month = sales_df.loc['2023-03']['Sales'].mean()
+
+
+    # --- WEEKLY AVERAGES ---
+    # All time
+    weekly_all_time = sales_df['Sales'].resample('W').mean().mean()
+
+    # For a given year
+    weekly_year = sales_df.loc['2023']['Sales'].resample('W').mean().mean()
+
+    # For a given month
+    weekly_month = sales_df.loc['2023-03']['Sales'].resample('W').mean().mean()
+
+
+    # --- MONTHLY AVERAGES ---
+    # All time
+    monthly_all_time = sales_df['Sales'].resample('M').mean().mean()
+
+    # For a given year
+    monthly_year = sales_df.loc['2023']['Sales'].resample('M').mean().mean()
 
     for year, year_df in sales_df.groupby(sales_df.index.year):
         monthly_sales = year_df.resample('M')['Sales'].sum()
@@ -43,7 +67,7 @@ def analyze_sales(file_path: str):
         print(f"Year {year}: Best Day: {best_day_of_year.date()} with Sales: ${year_df['Sales'].max():.2f}")
 
         best_day_of_week = year_df.groupby(year_df.index.day_name())['Sales'].mean().idxmax()
-        print(f"Year {year}: Best Day of Week: {best_day_of_week}
+        print(f"Year {year}: Best Day of Week: {best_day_of_week}")
               
         monthly_groups = year_df.groupby(year_df.index.month)
         for month_num, month_df in monthly_groups:
