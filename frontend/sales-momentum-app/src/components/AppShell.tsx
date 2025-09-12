@@ -1,6 +1,20 @@
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import DashboardCard from "./DashboardCard";
+import { cx } from "../utils/cx";
+import { Dashboard } from "./Dashboard";
+
+const renderContent = (active: string) => {
+  switch (active) {
+    case "dashboard":
+      return <Dashboard />;
+    case "reports":
+      return <div>Reports Content</div>;
+    case "all":
+      return <div>All Businesses Content</div>;
+    default:
+      return <div>Welcome! Please select a section from the sidebar.</div>;
+  }
+};
 
 export default function AppShell() {
   const [collapsed, setCollapsed] = useState(false);
@@ -25,16 +39,13 @@ export default function AppShell() {
       />
 
       {/* Content Area */}
-      <main className="flex-1 p-6">
-        <div className="mx-auto max-w-5xl">
-          <h1 className="mb-2 text-2xl font-semibold tracking-tight">
-            Sales Momentum Dashboard
-          </h1>
-          <p className="mb-6 text-neutral-300">This is the content area."</p>
-          <DashboardCard title="Pipeline" value="$1.2M" />
-          <DashboardCard title="New Leads" value="128" />
-          <DashboardCard title="Win Rate" value="31%" />
-        </div>
+      <main
+        className={cx(
+          "transition-all duration-300 ease-in-out p-6",
+          collapsed ? "pl-24" : "pl-64"
+        )}
+      >
+        {renderContent(active)}
       </main>
     </div>
   );

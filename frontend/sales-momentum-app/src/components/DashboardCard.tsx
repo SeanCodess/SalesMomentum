@@ -1,14 +1,21 @@
+import React from "react";
+import { cx } from "../utils/cx";
+
 export default function DashboardCard({
-  title,
-  value,
+  children,
+  className,
 }: {
-  title: string;
-  value: string;
+  children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="mb-4 rounded-2xl bg-neutral-800 p-6 shadow-lg ring-1 ring-neutral-700">
-      <div className="text-sm text-neutral-400">{title}</div>
-      <div className="mt-2 text-2xl font-bold">{value}</div>
+    <div
+      className={cx(
+        "rounded-2xl bg-neutral-800 p-6 shadow-lg ring-1 ring-neutral-700 flex",
+        className
+      )}
+    >
+      {children}
     </div>
   );
 }
