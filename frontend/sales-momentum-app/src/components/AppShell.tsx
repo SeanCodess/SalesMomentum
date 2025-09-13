@@ -28,7 +28,7 @@ export default function AppShell() {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-neutral-900 text-gray-50">
       <Sidebar
         collapsed={collapsed}
         onToggleCollapse={() => setCollapsed((c) => !c)}
@@ -39,12 +39,7 @@ export default function AppShell() {
       />
 
       {/* Content Area */}
-      <main
-        className={cx(
-          "transition-all duration-300 ease-in-out p-6",
-          collapsed ? "pl-24" : "pl-64"
-        )}
-      >
+      <main className="flex-1 overflow-y-auto p-6">
         {renderContent(active)}
       </main>
     </div>
