@@ -1,5 +1,7 @@
 import { ChevronDown, User } from "lucide-react";
 import DashboardCard from "./DashboardCard";
+import { useState } from "react";
+import Dropdown from "./Dropdown";
 
 const BusinessInfoCard = () => (
   <DashboardCard className="col-span-3">
@@ -9,6 +11,26 @@ const BusinessInfoCard = () => (
     </div>
   </DashboardCard>
 );
+const averageData = {
+  Daily: [
+    { label: "Daily Average This Week", value: "1,590.00" },
+    { label: "Daily Average This Month", value: "1,585.75" },
+    { label: "Daily Average This Year", value: "1,572.30" },
+  ],
+  Weekly: [
+    { label: "Weekly Average This Month", value: "11,130.00" },
+    { label: "Weekly Average This Year", value: "11,005.00" },
+    { label: "Weekly Average All Time", value: "10,850.00" },
+  ],
+  Monthly: [
+    { label: "Monthly Average This Year", value: "47,700.00" },
+    { label: "Monthly Average All Time", value: "46,900.00" },
+  ],
+  Yearly: [{ label: "Yearly Average", value: "580,350.00" }],
+};
+
+const AVERAGE_OPTIONS = ["Daily", "Weekly", "Monthly", "Yearly"] as const;
+type AverageType = (typeof AVERAGE_OPTIONS)[number];
 
 const UserProfileCard = () => (
   <DashboardCard className="col-span-2">
@@ -22,21 +44,32 @@ const UserProfileCard = () => (
   </DashboardCard>
 );
 
-const AverageIncomeCard = () => (
-  <DashboardCard className="col-span-2 flex-col items-start gap-4">
-    <div className="flex items-center justify-between w-full">
-      <div className="flex items-center gap-2">
-        <ChevronDown />
-        <h3 className="font-semibold">Daily Average Income</h3>
+const AverageIncomeCard = () => {
+  const [selectedAverage, setSelectedAverage] = useState<AverageType>("Daily");
+
+  return (
+    <DashboardCard className="col-span-2 flex-col items-start gap-4">
+      <Dropdown
+        options={AVERAGE_OPTIONS}
+        selectedValue={selectedAverage}
+        onSelect={(option) => setSelectedAverage(option as AverageType)}
+        label="Average"
+      />
+
+      <div className="flex flex-col w-full gap-3 mt-2">
+        {averageData[selectedAverage].map((item) => (
+          <div
+            key={item.label}
+            className="flex items-center justify-between w-full"
+          >
+            <p className="text-sm text-gray-300">{item.label}</p>
+            <p className="font-bold text-lg">₱ {item.value}</p>
+          </div>
+        ))}
       </div>
-      <p className="text-xl font-bold">₱ 1,586.50</p>
-    </div>
-    <div className="flex items-center gap-2 ml-2">
-      <ChevronDown />
-      <h3 className="font-semibold">This Week</h3>
-    </div>
-  </DashboardCard>
-);
+    </DashboardCard>
+  );
+};
 
 const PeakPerformanceCard = () => (
   <DashboardCard className="col-span-3 row-span-2 flex-col items-start gap-4">
