@@ -29,8 +29,32 @@ const averageData = {
   Yearly: [{ label: "Yearly Average", value: "580,350.00" }],
 };
 
+const peakPerformanceData = {
+  "This Year": {
+    month: { label: "March", value: "84,750.00" },
+    week: { label: "July 14-20", value: "18,420.00" },
+    day: { label: "July 14", value: "2,940.00" },
+  },
+  "This Month": {
+    week: { label: "September 8-14", value: "16,380.00" },
+    day: { label: "September 12", value: "2,765.00" },
+    month: "September",
+  },
+  "This Week": {
+    day: { label: "September 17", value: "2,340.00" },
+    week: "September 15 - 21",
+  },
+};
+
 const AVERAGE_OPTIONS = ["Daily", "Weekly", "Monthly", "Yearly"] as const;
 type AverageType = (typeof AVERAGE_OPTIONS)[number];
+
+const PEAK_PERFORMANCE_OPTIONS = [
+  "This Year",
+  "This Month",
+  "This Week",
+] as const;
+type PeakPerformancePeriod = (typeof PEAK_PERFORMANCE_OPTIONS)[number];
 
 const UserProfileCard = () => (
   <DashboardCard className="col-span-2">
@@ -71,31 +95,79 @@ const AverageIncomeCard = () => {
   );
 };
 
-const PeakPerformanceCard = () => (
-  <DashboardCard className="col-span-3 row-span-2 flex-col items-start gap-4">
-    <h3 className="text-xl font-bold">Peak Sales Performance</h3>
-    <div className="flex items-center justify-between w-full bg-gray-800/50 p-2 rounded-lg">
-      <div className="flex items-center gap-2">
-        <ChevronDown />
-        <span className="font-semibold">Year</span>
+const PeakPerformanceCard = () => {
+  const [period, setPeriod] = useState<PeakPerformancePeriod>("This Year");
+  const data = peakPerformanceData[period];
+
+  return (
+    <DashboardCard className="col-span-2 row-span-2 flex-col items-start gap-4">
+      <h3 className="text-xl font-bold">Peak Performance</h3>
+      <Dropdown
+        options={PEAK_PERFORMANCE_OPTIONS}
+        selectedValue={period}
+        onSelect={(option) => setPeriod(option as PeakPerformancePeriod)}
+        label="Period"
+      />
+
+      {period === "This Year" && (
+        <>
+          <div className="w-full border-b border-gray-600 my-2" />
+          <div className="flex flex-col w-full gap-2">
+            <p>Month with Most Sales</p>
+            <p className="font-bold text-lg">
+              {data.month?.label} (₱{data.month?.value})
+            </p>
+          </div>
+          <div className="w-full border-b border-gray-600 my-2" />
+          <div className="flex flex-col w-full gap-2">
+            <p>Week with Most Sales</p>
+            <p className="font-bold text-lg">
+              {data.week?.label} (₱{data.week?.value})
+            </p>
+          </div>
+        </>
+      )}
+
+      {period === "This Month" && (
+        <>
+          <div className="w-full border-b border-gray-600 my-2" />
+          <div className="flex flex-col w-full gap-2">
+            <p>Week with Most Sales</p>
+            <p className="font-bold text-lg">
+              {data.week?.label} (₱{data.week?.value})
+            </p>
+          </div>
+        </>
+      )}
+
+      <div className="w-full border-b border-gray-600 my-2" />
+      <div className="flex flex-col w-full gap-2">
+        <p>Day with Most Sales</p>
+        <p className="font-bold text-lg">
+          {data.day?.label} (₱{data.day?.value})
+        </p>
       </div>
-      <span className="text-2xl font-bold">2024</span>
-    </div>
-    <div className="w-full border-b border-gray-600 my-2"></div>
-    <div className="flex flex-col w-full gap-2">
-      <p>Month with Most Sales</p>
-      <p className="font-bold text-lg">March (₱42,345.00)</p>
-    </div>
-    <div className="w-full border-b border-gray-600 my-2"></div>
-    <div className="flex flex-col w-full gap-2">
-      <p>Day with Most Sales</p>
-      <p className="font-bold text-lg">July 14 (₱3,345.00)</p>
-    </div>
-    <button className="w-full p-2 mt-auto text-center bg-gray-200 text-gray-900 font-semibold rounded-lg">
-      View Best Sales Day per Month
-    </button>
-  </DashboardCard>
-);
+
+      {period === "This Month" && (
+        <div className="flex items-center justify-between w-full mt-auto">
+          <p className="text-sm">Month: {data.month}</p>
+          <button className="text-sm font-semibold text-violet-400 hover:text-violet-300">
+            Change Month
+          </button>
+        </div>
+      )}
+
+      {period === "This Week" && (
+        <div className="flex items-center justify-between w-full mt-auto">
+          <p className="text-sm">Date: {data.week}</p>
+          <button className="text-sm font-semibold text-violet-400 hover:text-violet-300">
+            Change Week
+          </button>
+        </div>
+      )}
+    </DashboardCard>
+  );
+};
 
 const SalesChartCard = () => (
   <DashboardCard className="lg:col-span-2 lg:row-span-2 col-span-full">
@@ -113,7 +185,7 @@ export const Dashboard = () => {
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
       <BusinessInfoCard />
       <UserProfileCard />
-      <div className="lg:col-span-2 flex flex-col gap-6 col-span-full">
+      <div className="lg:col-span-3 flex flex-col gap-6 col-span-full">
         <AverageIncomeCard />
         <SalesChartCard />
       </div>
