@@ -4,13 +4,12 @@ import { useState } from "react";
 import Dropdown from "./Dropdown";
 
 const BusinessInfoCard = () => (
-  <DashboardCard className="flex-1 min-w-56">
-    <div className="flex flex-col">
-      {/* MODIFIED: Font sizes now change at different screen breakpoints */}
-      <h2 className="font-bold truncate text-lg md:text-xl lg:text-2xl">
+  <DashboardCard className="flex-[4] min-w-0">
+    <div className="flex flex-col min-w-0 w-full">
+      <h2 className="font-bold text-lg md:text-xl lg:text-2xl whitespace-nowrap overflow-hidden text-ellipsis">
         Business Name
       </h2>
-      <p className="text-gray-400 truncate text-xs md:text-[0.8rem]">
+      <p className="text-gray-400 text-xs md:text-[0.8rem] whitespace-nowrap overflow-hidden text-ellipsis">
         Date Started this Year – Date Now
       </p>
     </div>
@@ -63,13 +62,15 @@ const PEAK_PERFORMANCE_OPTIONS = [
 type PeakPerformancePeriod = (typeof PEAK_PERFORMANCE_OPTIONS)[number];
 
 const UserProfileCard = () => (
-  <DashboardCard className="w-64">
-    <div className="flex items-center justify-between w-full">
-      <div className="flex items-center gap-2">
-        <User className="w-6 h-6" />
-        <span className="font-semibold">Username</span>
+  <DashboardCard className="flex-[1] min-w-0 max-w-[160px] md:max-w-[240px] lg:max-w-[320px]">
+    <div className="flex items-center justify-between w-full min-w-0">
+      <div className="flex items-center gap-2 min-w-0 flex-1">
+        <User className="w-6 h-6 flex-shrink-0" />
+        <span className="font-semibold truncate text-sm md:text-base min-w-0">
+          Username That Might Be Very Long
+        </span>
       </div>
-      <ChevronDown className="w-5 h-5" />
+      <ChevronDown className="w-5 h-5 ml-2 flex-shrink-0" />
     </div>
   </DashboardCard>
 );
@@ -78,7 +79,6 @@ const AverageIncomeCard = () => {
   const [selectedAverage, setSelectedAverage] = useState<AverageType>("Daily");
 
   return (
-    // MODIFIED: Added min-w-[350px] to prevent the card from shrinking too much
     <DashboardCard className="col-span-2 flex-col items-start gap-4 min-w-[350px]">
       <Dropdown
         options={AVERAGE_OPTIONS}
@@ -107,7 +107,6 @@ const PeakPerformanceCard = () => {
   const data = peakPerformanceData[period];
 
   return (
-    // MODIFIED: Added min-w-[350px] to prevent the card from shrinking too much
     <DashboardCard className="col-span-2 row-span-2 flex-col items-start gap-4 min-w-[350px]">
       <h3 className="text-xl font-bold">Peak Performance</h3>
       <Dropdown
@@ -178,7 +177,6 @@ const PeakPerformanceCard = () => {
 };
 
 const SalesChartCard = () => (
-  // MODIFIED: Added min-w-[350px] to prevent the card from shrinking too much
   <DashboardCard className="lg:col-span-2 lg:row-span-2 col-span-full min-w-[350px]">
     <div className="w-full h-full bg-white rounded-lg p-4">
       {/* Placeholder for the chart image/component */}
@@ -192,7 +190,7 @@ const SalesChartCard = () => (
 export const Dashboard = () => {
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-start gap-6">
+      <div className="flex flex-row flex-nowrap justify-between items-center gap-6">
         <BusinessInfoCard />
         <UserProfileCard />
       </div>

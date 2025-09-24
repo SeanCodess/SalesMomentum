@@ -22,7 +22,7 @@ export default function Sidebar({
   return (
     <aside
       className={cx(
-        "sticky top-0 h-screen border-r border-neutral-800 bg-neutral-900/60 backdrop-blur",
+        "fixed inset-y-0 left-0 z-20 h-screen border-r border-neutral-800 bg-neutral-900/60 backdrop-blur md:sticky",
         collapsed ? "w-[76px]" : "w-[260px]"
       )}
       aria-label="Sidebar"
