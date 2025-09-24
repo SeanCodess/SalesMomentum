@@ -4,13 +4,19 @@ import { useState } from "react";
 import Dropdown from "./Dropdown";
 
 const BusinessInfoCard = () => (
-  <DashboardCard className="col-span-3">
+  <DashboardCard className="flex-1 min-w-56">
     <div className="flex flex-col">
-      <h2 className="text-2xl font-bold">Business Name</h2>
-      <p className="text-sm text-gray-400">Date Started this Year – Date Now</p>
+      {/* MODIFIED: Font sizes now change at different screen breakpoints */}
+      <h2 className="font-bold truncate text-lg md:text-xl lg:text-2xl">
+        Business Name
+      </h2>
+      <p className="text-gray-400 truncate text-xs md:text-[0.8rem]">
+        Date Started this Year – Date Now
+      </p>
     </div>
   </DashboardCard>
 );
+
 const averageData = {
   Daily: [
     { label: "Daily Average This Week", value: "1,590.00" },
@@ -57,7 +63,7 @@ const PEAK_PERFORMANCE_OPTIONS = [
 type PeakPerformancePeriod = (typeof PEAK_PERFORMANCE_OPTIONS)[number];
 
 const UserProfileCard = () => (
-  <DashboardCard className="col-span-2">
+  <DashboardCard className="w-64">
     <div className="flex items-center justify-between w-full">
       <div className="flex items-center gap-2">
         <User className="w-6 h-6" />
@@ -72,7 +78,8 @@ const AverageIncomeCard = () => {
   const [selectedAverage, setSelectedAverage] = useState<AverageType>("Daily");
 
   return (
-    <DashboardCard className="col-span-2 flex-col items-start gap-4">
+    // MODIFIED: Added min-w-[350px] to prevent the card from shrinking too much
+    <DashboardCard className="col-span-2 flex-col items-start gap-4 min-w-[350px]">
       <Dropdown
         options={AVERAGE_OPTIONS}
         selectedValue={selectedAverage}
@@ -100,7 +107,8 @@ const PeakPerformanceCard = () => {
   const data = peakPerformanceData[period];
 
   return (
-    <DashboardCard className="col-span-2 row-span-2 flex-col items-start gap-4">
+    // MODIFIED: Added min-w-[350px] to prevent the card from shrinking too much
+    <DashboardCard className="col-span-2 row-span-2 flex-col items-start gap-4 min-w-[350px]">
       <h3 className="text-xl font-bold">Peak Performance</h3>
       <Dropdown
         options={PEAK_PERFORMANCE_OPTIONS}
@@ -170,7 +178,8 @@ const PeakPerformanceCard = () => {
 };
 
 const SalesChartCard = () => (
-  <DashboardCard className="lg:col-span-2 lg:row-span-2 col-span-full">
+  // MODIFIED: Added min-w-[350px] to prevent the card from shrinking too much
+  <DashboardCard className="lg:col-span-2 lg:row-span-2 col-span-full min-w-[350px]">
     <div className="w-full h-full bg-white rounded-lg p-4">
       {/* Placeholder for the chart image/component */}
       <div className="w-full h-full bg-gray-300 rounded flex items-center justify-center min-h-[200px]">
@@ -182,14 +191,22 @@ const SalesChartCard = () => (
 
 export const Dashboard = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      <BusinessInfoCard />
-      <UserProfileCard />
-      <div className="lg:col-span-3 flex flex-col gap-6 col-span-full">
-        <AverageIncomeCard />
-        <SalesChartCard />
+    <div className="flex flex-col gap-6">
+      <div className="flex justify-between items-start gap-6">
+        <BusinessInfoCard />
+        <UserProfileCard />
       </div>
-      <PeakPerformanceCard />
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <AverageIncomeCard />
+            <SalesChartCard />
+          </div>
+        </div>
+        <div className="lg:col-span-2">
+          <PeakPerformanceCard />
+        </div>
+      </div>
     </div>
   );
 };
