@@ -7,7 +7,7 @@ export const MENU: MenuNode[] = [
     label: "Dashboard",
     icon: LayoutDashboard,
   },
-  { id: "reports", label: "Reports", icon: BarChart2 },
+  { id: "ledger", label: "Ledger", icon: BarChart2 },
   {
     id: "businesses",
     label: "Businesses",

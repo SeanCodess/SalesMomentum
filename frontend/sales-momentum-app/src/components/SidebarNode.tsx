@@ -26,6 +26,10 @@ export default function SidebarNode({
   const hasChildren = !!node.children?.length;
   const isOpen = open[node.id];
 
+  if (hasChildren && collapsed) {
+    return null;
+  }
+
   const leftPad = useMemo(() => 6 + depth * 2, [depth]);
 
   const baseBtn =

@@ -2,6 +2,14 @@ import { ChevronDown, User } from "lucide-react";
 import DashboardCard from "./DashboardCard";
 import { useState } from "react";
 import Dropdown from "./Dropdown";
+import {
+  averageData,
+  peakPerformanceData,
+  AVERAGE_OPTIONS,
+  PEAK_PERFORMANCE_OPTIONS,
+  type AverageType,
+  type PeakPerformancePeriod,
+} from "../data/dashboardData";
 
 const BusinessInfoCard = () => (
   <DashboardCard className="flex-[4] min-w-0">
@@ -15,51 +23,6 @@ const BusinessInfoCard = () => (
     </div>
   </DashboardCard>
 );
-
-const averageData = {
-  Daily: [
-    { label: "Daily Average This Week", value: "1,590.00" },
-    { label: "Daily Average This Month", value: "1,585.75" },
-    { label: "Daily Average This Year", value: "1,572.30" },
-  ],
-  Weekly: [
-    { label: "Weekly Average This Month", value: "11,130.00" },
-    { label: "Weekly Average This Year", value: "11,005.00" },
-    { label: "Weekly Average All Time", value: "10,850.00" },
-  ],
-  Monthly: [
-    { label: "Monthly Average This Year", value: "47,700.00" },
-    { label: "Monthly Average All Time", value: "46,900.00" },
-  ],
-  Yearly: [{ label: "Yearly Average", value: "580,350.00" }],
-};
-
-const peakPerformanceData = {
-  "This Year": {
-    month: { label: "March", value: "84,750.00" },
-    week: { label: "July 14-20", value: "18,420.00" },
-    day: { label: "July 14", value: "2,940.00" },
-  },
-  "This Month": {
-    week: { label: "September 8-14", value: "16,380.00" },
-    day: { label: "September 12", value: "2,765.00" },
-    month: "September",
-  },
-  "This Week": {
-    day: { label: "September 17", value: "2,340.00" },
-    week: "September 15 - 21",
-  },
-};
-
-const AVERAGE_OPTIONS = ["Daily", "Weekly", "Monthly", "Yearly"] as const;
-type AverageType = (typeof AVERAGE_OPTIONS)[number];
-
-const PEAK_PERFORMANCE_OPTIONS = [
-  "This Year",
-  "This Month",
-  "This Week",
-] as const;
-type PeakPerformancePeriod = (typeof PEAK_PERFORMANCE_OPTIONS)[number];
 
 const UserProfileCard = () => (
   <DashboardCard className="flex-[1] min-w-0 max-w-[160px] md:max-w-[240px] lg:max-w-[320px]">
@@ -79,7 +42,8 @@ const AverageIncomeCard = () => {
   const [selectedAverage, setSelectedAverage] = useState<AverageType>("Daily");
 
   return (
-    <DashboardCard className="col-span-2 flex-col items-start gap-4 min-w-[350px]">
+    // REMOVED min-w-[350px] from here
+    <DashboardCard className="col-span-2 flex-col items-start gap-4">
       <Dropdown
         options={AVERAGE_OPTIONS}
         selectedValue={selectedAverage}
@@ -107,7 +71,8 @@ const PeakPerformanceCard = () => {
   const data = peakPerformanceData[period];
 
   return (
-    <DashboardCard className="col-span-2 row-span-2 flex-col items-start gap-4 min-w-[350px]">
+    // REMOVED min-w-[350px] from here
+    <DashboardCard className="col-span-2 row-span-2 flex-col items-start gap-4">
       <h3 className="text-xl font-bold">Peak Performance</h3>
       <Dropdown
         options={PEAK_PERFORMANCE_OPTIONS}
